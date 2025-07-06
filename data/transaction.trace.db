@@ -1,0 +1,8 @@
+2025-07-06 16:27:37.252198+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "PRODUCT" не найдена
+Table "PRODUCT" not found; SQL statement:
+SELECT * FROM PRODUCT [42102-232]
+2025-07-06 16:28:32.713220+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "PRODUCT" не найдена
+Table "PRODUCT" not found; SQL statement:
+SELECT * FROM PRODUCT [42102-232]
