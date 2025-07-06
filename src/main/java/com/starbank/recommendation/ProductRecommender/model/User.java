@@ -4,18 +4,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class User {
 
     @JsonProperty("user_id")
-    private int id;
+    private UUID id;
     private List<Recommendation> recommendations;
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

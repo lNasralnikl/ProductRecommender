@@ -1,5 +1,7 @@
 package com.starbank.recommendation.ProductRecommender.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Objects;
 
 public class Recommendation {
@@ -7,6 +9,9 @@ public class Recommendation {
     private String name;
     private int id;
     private String text;
+
+    @JsonIgnore
+    private String sqlRules = "";
 
     public String getName() {
         return name;
@@ -30,6 +35,14 @@ public class Recommendation {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getSqlRules() {
+        return sqlRules;
+    }
+
+    public void setSqlRules(String sqlRules) {
+        this.sqlRules = sqlRules;
     }
 
     @Override
