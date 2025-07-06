@@ -3,11 +3,12 @@ package com.starbank.recommendation.ProductRecommender.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class Recommendation {
 
     private String name;
-    private int id;
+    private UUID id;
     private String text;
 
     @JsonIgnore
@@ -21,11 +22,11 @@ public class Recommendation {
         this.name = name;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
