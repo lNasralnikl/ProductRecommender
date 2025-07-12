@@ -53,6 +53,14 @@ public class Recommendation {
         this.sqlRules = sqlRules;
     }
 
+    public List<Rule> getRules() {
+        return rules;
+    }
+
+    public void setRules(List<Rule> rules) {
+        this.rules = rules;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
