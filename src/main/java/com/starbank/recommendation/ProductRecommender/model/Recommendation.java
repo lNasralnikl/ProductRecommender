@@ -1,15 +1,22 @@
 package com.starbank.recommendation.ProductRecommender.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 public class Recommendation {
 
+    @JsonProperty("product_id")
     private String name;
     private UUID id;
+    @JsonProperty("product_text")
     private String text;
+
+    @JsonProperty("rule")
+    private List<Rule> rules;
 
     @JsonIgnore
     private String sqlRules = "";
@@ -44,6 +51,14 @@ public class Recommendation {
 
     public void setSqlRules(String sqlRules) {
         this.sqlRules = sqlRules;
+    }
+
+    public List<Rule> getRules() {
+        return rules;
+    }
+
+    public void setRules(List<Rule> rules) {
+        this.rules = rules;
     }
 
     @Override
