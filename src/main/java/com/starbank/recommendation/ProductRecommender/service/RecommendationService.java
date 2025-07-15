@@ -5,7 +5,9 @@ import com.starbank.recommendation.ProductRecommender.model.User;
 import com.starbank.recommendation.ProductRecommender.repository.ProductRepository;
 import com.starbank.recommendation.ProductRecommender.rules.RecommendationRules;
 import io.swagger.v3.oas.annotations.servers.Server;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.RequestScope;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +66,7 @@ public class RecommendationService {
     }
 
     //Отправляем пользователям рекомендации
+    @Cacheable(cacheNames = "recommendations", key = "#userId")
     public List<Recommendation> getRecommendations(UUID userId) {
         User user = new User();
         user.setId(userId);
