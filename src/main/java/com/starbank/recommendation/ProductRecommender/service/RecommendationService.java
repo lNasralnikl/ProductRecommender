@@ -1,8 +1,10 @@
 package com.starbank.recommendation.ProductRecommender.service;
 
 import com.starbank.recommendation.ProductRecommender.model.Recommendation;
+import com.starbank.recommendation.ProductRecommender.model.Rule;
 import com.starbank.recommendation.ProductRecommender.model.User;
 import com.starbank.recommendation.ProductRecommender.repository.ProductRepository;
+import com.starbank.recommendation.ProductRecommender.repository.RuleRepository;
 import com.starbank.recommendation.ProductRecommender.rules.RecommendationRules;
 import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.cache.annotation.Cacheable;
@@ -19,14 +21,31 @@ public class RecommendationService {
 
     private final ProductRepository productRepository;
     private final List<Recommendation> recommendations;
+    private final RuleRepository ruleRepository;
 
-    public RecommendationService(ProductRepository productRepository, List<Recommendation> recommendations) {
+    public RecommendationService(ProductRepository productRepository, List<Recommendation> recommendations, RuleRepository ruleRepository) {
         this.productRepository = productRepository;
         this.recommendations = AllRecommendations();
+        this.ruleRepository = ruleRepository;
+    }
+
+    //Добавление правила
+    public Rule addRule(Rule rule){
+        return ruleRepository.save(rule);
+    }
+
+    //Вывод всех правил
+    public List<Rule> getAllRules(){
+        return ruleRepository.findAll();
+    }
+
+    //Удаление правила
+    public void deleteRule(UUID id){
+        ruleRepository.deleteById(id);
     }
 
     //Создаем лист со всеми правилами
-    private List<Recommendation> AllRecommendations(){
+    private List<Recommendation> AllRecommendations() {
         List<Recommendation> recommendationList = new ArrayList<>();
 
         //Добавляем правила в лист при инициализации

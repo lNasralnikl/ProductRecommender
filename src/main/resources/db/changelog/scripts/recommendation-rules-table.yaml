@@ -30,12 +30,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: rule_query
-                  type: VARCHAR(50)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: negate
-                  type: BOOLEAN
+                  name: rule_conditions
+                  type: jsonb
                   constraints:
                     nullable: false

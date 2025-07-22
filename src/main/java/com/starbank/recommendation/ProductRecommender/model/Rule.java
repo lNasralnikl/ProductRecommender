@@ -26,17 +26,9 @@ public class Rule {
     @Column(name = "product_text", nullable = false)
     private String productText;
 
-    @JsonIgnore
-    @Column(name = "rule_query", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private QueryType query;
-
-    @JsonIgnore
-    @Column(name = "arguments", columnDefinition = "jsonb")
-    private List<String> arguments;
-
-    @Column(name = "negate", nullable = false)
-    private boolean negate;
+    @Convert(converter = RuleConditionsConverter.class)
+    @Column(name =  "rule_conditions", columnDefinition = "jsonb")
+    private List<RuleCondition> conditions;
 
     public enum QueryType {
         USER_OF("USER_OF"),
@@ -56,31 +48,43 @@ public class Rule {
         }
     }
 
-    public QueryType getQuery() {
-        return query;
+    public UUID getId() {
+        return id;
     }
 
-    public void setQuery(QueryType query) {
-        this.query = query;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
-    public List<String> getArguments() {
-        return arguments;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setArguments(List<String> arguments) {
-        this.arguments = arguments;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public boolean isNegate() {
-        return negate;
+    public UUID getProductId() {
+        return productId;
     }
 
-    public void setNegate(boolean negate) {
-        this.negate = negate;
+    public void setProductId(UUID productId) {
+        this.productId = productId;
     }
 
-    //Тут добавить конвертер по рекомендации наставника
+    public String getProductText() {
+        return productText;
+    }
 
+    public void setProductText(String productText) {
+        this.productText = productText;
+    }
 
+    public List<RuleCondition> getConditions() {
+        return conditions;
+    }
+
+    public void setConditions(List<RuleCondition> conditions) {
+        this.conditions = conditions;
+    }
 }

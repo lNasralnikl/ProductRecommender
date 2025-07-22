@@ -1,12 +1,10 @@
 package com.starbank.recommendation.ProductRecommender.controller;
 
 import com.starbank.recommendation.ProductRecommender.model.Recommendation;
+import com.starbank.recommendation.ProductRecommender.model.Rule;
 import com.starbank.recommendation.ProductRecommender.service.RecommendationService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -26,4 +24,24 @@ public class RecommendationController {
         List<Recommendation> recommendations = recommendationService.getRecommendations(userId);
         return ResponseEntity.ok(recommendations);
     }
+
+    @PostMapping("/rule")
+    public ResponseEntity<Rule> addRule(@RequestBody Rule rule){
+        Rule savedRule = recommendationService.addRule(rule);
+        return ResponseEntity.ok(savedRule);
+    }
+
+    @GetMapping("/rule")
+    public ResponseEntity<List<Rule>> getAllRules(){
+        List<Rule> rules = recommendationService.getAllRules();
+        return ResponseEntity.ok(rules);
+    }
+
+    @DeleteMapping("/rule/{id}")
+    public ResponseEntity<Void> deleteRule(@PathVariable UUID id){
+        recommendationService.deleteRule(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
 }
