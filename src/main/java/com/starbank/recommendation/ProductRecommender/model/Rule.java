@@ -13,20 +13,25 @@ import java.util.UUID;
 public class Rule {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonIgnore
+
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    @JsonProperty("product_name")
     @Column(name = "product_name", nullable = false)
     private String productName;
 
+    @JsonProperty("product_id")
     @Column(name = "product_id", nullable = false)
     private UUID productId;
 
+    @JsonProperty("product_text")
     @Column(name = "product_text", nullable = false)
     private String productText;
 
     @Convert(converter = RuleConditionsConverter.class)
+    @JsonProperty("rule")
     @Column(name =  "rule_conditions", columnDefinition = "jsonb")
     private List<RuleCondition> conditions;
 
@@ -51,6 +56,7 @@ public class Rule {
     public UUID getId() {
         return id;
     }
+
 
     public void setId(UUID id) {
         this.id = id;
