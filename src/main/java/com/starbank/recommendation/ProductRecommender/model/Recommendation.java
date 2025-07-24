@@ -1,7 +1,9 @@
 package com.starbank.recommendation.ProductRecommender.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
