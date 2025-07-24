@@ -14,7 +14,6 @@ public class Rule {
 
     @Id
     @JsonIgnore
-
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 

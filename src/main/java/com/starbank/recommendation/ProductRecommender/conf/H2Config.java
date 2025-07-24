@@ -37,7 +37,7 @@ public class H2Config {
 
     @Bean(name = "defaultDataSource")
     @Primary
-    public DataSource dataSource(DataSourceProperties properties){
+    public DataSource dataSource(DataSourceProperties properties) {
         return properties.initializeDataSourceBuilder().build();
     }
 

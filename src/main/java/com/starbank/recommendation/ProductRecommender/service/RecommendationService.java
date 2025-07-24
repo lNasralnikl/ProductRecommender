@@ -1,5 +1,7 @@
 package com.starbank.recommendation.ProductRecommender.service;
 
+import com.starbank.recommendation.ProductRecommender.dto.RecommendationDto;
+import com.starbank.recommendation.ProductRecommender.dto.RuleDto;
 import com.starbank.recommendation.ProductRecommender.model.Recommendation;
 import com.starbank.recommendation.ProductRecommender.model.Rule;
 import com.starbank.recommendation.ProductRecommender.model.User;
@@ -30,17 +32,17 @@ public class RecommendationService {
     }
 
     //Добавление правила
-    public Rule addRule(Rule rule){
-        return ruleRepository.save(rule);
+    public RuleDto addRule(Rule rule) {
+        return RuleDto.mapToRuleConditionDto(ruleRepository.save(rule));
     }
 
     //Вывод всех правил
-    public List<Rule> getAllRules(){
+    public List<Rule> getAllRules() {
         return ruleRepository.findAll();
     }
 
     //Удаление правила
-    public void deleteRule(UUID id){
+    public void deleteRule(UUID id) {
         ruleRepository.deleteById(id);
     }
 
@@ -86,13 +88,14 @@ public class RecommendationService {
 
     //Отправляем пользователям рекомендации
     @Cacheable(cacheNames = "recommendations", key = "#userId")
-    public List<Recommendation> getRecommendations(UUID userId) {
+    public List<RecommendationDto> getRecommendations(UUID userId) {
         User user = new User();
         user.setId(userId);
 
         //Проверяем соответствие по методу репозитория
         return recommendations.stream()
                 .filter(recommendation -> productRepository.isRecommendation(recommendation, user))
+                .map(RecommendationDto::mapToRecommendationDto)
                 .collect(Collectors.toList());
     }
 }

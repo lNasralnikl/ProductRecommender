@@ -1,5 +1,7 @@
 package com.starbank.recommendation.ProductRecommender.controller;
 
+import com.starbank.recommendation.ProductRecommender.dto.RecommendationDto;
+import com.starbank.recommendation.ProductRecommender.dto.RuleDto;
 import com.starbank.recommendation.ProductRecommender.model.Recommendation;
 import com.starbank.recommendation.ProductRecommender.model.Rule;
 import com.starbank.recommendation.ProductRecommender.service.RecommendationService;
@@ -10,7 +12,6 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/recommendations")
 public class RecommendationController {
 
     private final RecommendationService recommendationService;
@@ -19,15 +20,15 @@ public class RecommendationController {
         this.recommendationService = recommendationService;
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<List<Recommendation>> getRecommendations(@PathVariable UUID userId){
-        List<Recommendation> recommendations = recommendationService.getRecommendations(userId);
+    @GetMapping("/recommendation/{userId}")
+    public ResponseEntity<List<RecommendationDto>> getRecommendations(@PathVariable UUID userId){
+        List<RecommendationDto> recommendations = recommendationService.getRecommendations(userId);
         return ResponseEntity.ok(recommendations);
     }
 
     @PostMapping("/rule")
-    public ResponseEntity<Rule> addRule(@RequestBody Rule rule){
-        Rule savedRule = recommendationService.addRule(rule);
+    public ResponseEntity<RuleDto> addRule(@RequestBody Rule rule){
+        RuleDto savedRule = recommendationService.addRule(rule);
         return ResponseEntity.ok(savedRule);
     }
 

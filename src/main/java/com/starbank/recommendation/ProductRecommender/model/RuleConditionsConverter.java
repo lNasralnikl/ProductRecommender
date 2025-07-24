@@ -17,6 +17,7 @@ public class RuleConditionsConverter implements AttributeConverter<List<RuleCond
     @Override
     public String convertToDatabaseColumn(List<RuleCondition> conditions) {
         try {
+
             return mapper.writeValueAsString(conditions);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);

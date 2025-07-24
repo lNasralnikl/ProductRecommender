@@ -27,7 +27,7 @@ public class RuleCondition {
 
     }
 
-    public static RuleCondition of(Rule.QueryType query, List<String> arguments, boolean negate){
+    public static RuleCondition of(Rule.QueryType query, List<String> arguments, boolean negate) {
         return new RuleCondition(query, arguments, negate);
     }
 
