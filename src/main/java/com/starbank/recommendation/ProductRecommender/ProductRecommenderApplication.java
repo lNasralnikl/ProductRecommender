@@ -8,8 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @OpenAPIDefinition
 public class ProductRecommenderApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ProductRecommenderApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ProductRecommenderApplication.class, args);
+    }
 
 }

@@ -3,6 +3,7 @@ package com.starbank.recommendation.ProductRecommender.conf;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -16,9 +17,8 @@ public class H2Config {
 
     @Value("${h2.url}")
     private String url;
-    
+
     @Bean
-    @Primary
     DataSource h2DataSource() {
         HikariConfig conf = new HikariConfig();
 
@@ -34,4 +34,11 @@ public class H2Config {
     JdbcTemplate h2Template(DataSource h2DataSource) {
         return new JdbcTemplate(h2DataSource);
     }
+
+    @Bean(name = "defaultDataSource")
+    @Primary
+    public DataSource dataSource(DataSourceProperties properties) {
+        return properties.initializeDataSourceBuilder().build();
+    }
+
 }
