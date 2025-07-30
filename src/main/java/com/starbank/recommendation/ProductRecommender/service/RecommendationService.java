@@ -4,8 +4,10 @@ import com.starbank.recommendation.ProductRecommender.dto.RecommendationDto;
 import com.starbank.recommendation.ProductRecommender.dto.RuleDto;
 import com.starbank.recommendation.ProductRecommender.model.Recommendation;
 import com.starbank.recommendation.ProductRecommender.model.Rule;
+import com.starbank.recommendation.ProductRecommender.model.RuleStatistics;
 import com.starbank.recommendation.ProductRecommender.model.User;
 import com.starbank.recommendation.ProductRecommender.repository.ProductRepository;
+import com.starbank.recommendation.ProductRecommender.repository.RuleCountStatisticsRepository;
 import com.starbank.recommendation.ProductRecommender.repository.RuleRepository;
 import com.starbank.recommendation.ProductRecommender.rules.RecommendationRules;
 import io.swagger.v3.oas.annotations.servers.Server;
@@ -24,11 +26,13 @@ public class RecommendationService {
     private final ProductRepository productRepository;
     private final List<Recommendation> recommendations;
     private final RuleRepository ruleRepository;
+    private final RuleCountStatisticsRepository ruleCountStatisticsRepository;
 
-    public RecommendationService(ProductRepository productRepository, List<Recommendation> recommendations, RuleRepository ruleRepository) {
+    public RecommendationService(ProductRepository productRepository, List<Recommendation> recommendations, RuleRepository ruleRepository, RuleCountStatisticsRepository ruleCountStatisticsRepository) {
         this.productRepository = productRepository;
         this.recommendations = AllRecommendations();
         this.ruleRepository = ruleRepository;
+        this.ruleCountStatisticsRepository = ruleCountStatisticsRepository;
     }
 
     //Добавление правила
@@ -98,4 +102,18 @@ public class RecommendationService {
                 .map(RecommendationDto::mapToRecommendationDto)
                 .collect(Collectors.toList());
     }
+
+    //Счетчик динамических правил
+    public void countIncrease(UUID ruleId){
+        RuleStatistics statistics = ruleCountStatisticsRepository.findById(ruleId).
+                orElse(new RuleStatistics(ruleId));
+        statistics.incrementCount();
+        ruleCountStatisticsRepository.save(statistics);
+    }
+
+    //Получение всех статистик
+    public List<RuleStatistics> getAllStats(){
+        return ruleCountStatisticsRepository.findAll();
+    }
+
 }
