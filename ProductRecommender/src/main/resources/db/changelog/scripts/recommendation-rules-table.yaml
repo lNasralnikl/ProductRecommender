@@ -5,7 +5,6 @@ databaseChangeLog:
       changes:
         - createTable:
             tableName: recommendation_rules
-            ifNotExists: true
             schemaName: public
             columns:
               - column:
