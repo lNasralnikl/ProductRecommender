@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/scripts/recommendation-rules-table.yaml
+  - include:
+      file: db/changelog/scripts/rule-statistics-table.yaml
