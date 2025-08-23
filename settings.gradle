@@ -1,4 +1,0 @@
-rootProject.name = 'ProductRecommender'
-
-include 'productrecommender'
-include 'bot'
