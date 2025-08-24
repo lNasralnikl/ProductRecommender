@@ -18,7 +18,7 @@ public class ProductRepository {
     private final JdbcTemplate jdbcTemplate;
     private final RuleRepository ruleRepository;
 
-    public ProductRepository(@Qualifier("h2Template") JdbcTemplate jdbcTemplate, RuleRepository ruleRepository) {
+    public ProductRepository(JdbcTemplate jdbcTemplate, RuleRepository ruleRepository) {
         this.jdbcTemplate = jdbcTemplate;
         this.ruleRepository = ruleRepository;
     }
