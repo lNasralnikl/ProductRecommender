@@ -36,7 +36,7 @@ services:
         build: ./bot
         container_name: recom-bot
         ports:
-            - "8081:8080"
+            - "8081:8081"
             - "5005:5005"
         environment:
             SPRING_APPLICATION_NAME: recom-bot
@@ -58,7 +58,8 @@ services:
         build: ./ProductRecommender
         container_name: recom-api
         volumes:
-            - ./ProductRecommender/data:/usr_data
+            - recom_data:/var/lib/postgresql/data
+            - ./data:/data
         environment:
             SPRING_PROFILES_ACTIVE: dev
             POSTGRES_USER: ${POSTGRES_USER}
