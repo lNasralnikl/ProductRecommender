@@ -15,17 +15,17 @@ import java.util.List;
 @Slf4j
 public class ProductRepository {
 
-    private final JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate h2JdbcTemplate;
     private final RuleRepository ruleRepository;
 
-    public ProductRepository(JdbcTemplate jdbcTemplate, RuleRepository ruleRepository) {
-        this.jdbcTemplate = jdbcTemplate;
+    public ProductRepository(JdbcTemplate h2JdbcTemplate, RuleRepository ruleRepository) {
+        this.h2JdbcTemplate = h2JdbcTemplate;
         this.ruleRepository = ruleRepository;
     }
 
     @PostConstruct
     private void init() {
-        log.info("H2 configured with {} datasource", jdbcTemplate.getDataSource());
+        log.info("H2 configured with {} datasource", h2JdbcTemplate.getDataSource());
     }
 
     public boolean isRecommendation(Recommendation recommendation, User user) {
@@ -33,7 +33,7 @@ public class ProductRepository {
         Boolean result = false;
 
         if (recommendation.getSqlRules() != null && !recommendation.getSqlRules().isEmpty()) {
-            result = jdbcTemplate.queryForObject(
+            result = h2JdbcTemplate.queryForObject(
                     recommendation.getSqlRules(),
                     Boolean.class,
                     user.getId());
@@ -52,7 +52,7 @@ public boolean isRecommendation(List<RuleCondition> conditions, User user) {
 
 private boolean isRuleCondition(RuleCondition condition, User user) {
     String sqlQuery = isRule(condition);
-    Boolean result = jdbcTemplate.queryForObject(
+    Boolean result = h2JdbcTemplate.queryForObject(
             sqlQuery,
             Boolean.class,
             user.getId()
