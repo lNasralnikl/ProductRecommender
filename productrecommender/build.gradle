@@ -41,6 +41,8 @@ dependencies {
 	implementation 'com.h2database:h2:2.3.232'
 	//implementation 'com.zaxxer:HikariCP:6.3.0'
 
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
 	// Caching
 	implementation 'com.github.ben-manes.caffeine:caffeine:3.2.2'
 
