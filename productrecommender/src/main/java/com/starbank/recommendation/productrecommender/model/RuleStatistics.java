@@ -26,6 +26,9 @@ public class RuleStatistics {
     public RuleStatistics(UUID ruleId) {
     }
 
+    public RuleStatistics() {
+    }
+
     //Повышение счетчика
     public void incrementCount(){
         this.count++;
