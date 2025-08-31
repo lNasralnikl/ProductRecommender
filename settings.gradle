@@ -1,0 +1,3 @@
+rootProject.name = 'ProductRecommender'
+include '1'
+include 'ProductRecommender'
