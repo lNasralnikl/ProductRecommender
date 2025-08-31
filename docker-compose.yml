@@ -8,17 +8,27 @@ services:
             POSTGRES_DB: recommendation_db
             POSTGRES_USER: ${POSTGRES_USER}
             POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        healthcheck:
+            test: [ "CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB -h localhost" ]
+            interval: 5s
+            timeout: 3s
+            retries: 10
         ports:
             - "5432:5432"
         networks:
             - recommendation_app
 
     consul:
-        image: hashicorp/consul
+        image: hashicorp/consul:1.19
         container_name: consul
         ports:
             - "8500:8500"
-        command: "agent -dev -client=0.0.0.0"
+        command: agent -dev -client=0.0.0.0
+        healthcheck:
+            test: [ "CMD", "consul", "info" ]
+            interval: 5s
+            timeout: 3s
+            retries: 10
         networks:
             - recommendation_app
 
@@ -26,40 +36,41 @@ services:
         build: ./bot
         container_name: recom-bot
         ports:
-            - "8081:8080"
+            - "8081:8081"
             - "5005:5005"
         environment:
             SPRING_APPLICATION_NAME: recom-bot
 
-            SPRING_PROFILES_ACTIVE: docker
-
+            SPRING_PROFILES_ACTIVE: dev
+            SPRING_CLOUD_CONSUL_HOST: consul
+            SPRING_CLOUD_CONSUL_PORT: 8500
             TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
             TELEGRAM_BOT_USERNAME: ${TELEGRAM_BOT_USERNAME}
 
             JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
         depends_on:
-            - consul
+            consul:
+                condition: service_healthy
         networks:
             - recommendation_app
 
-    app:
+    recom-api:
         build: ./ProductRecommender
         container_name: recom-api
         volumes:
-            - ./ProductRecommender/data:/usr_data
+            - recom_data:/var/lib/postgresql/data
+            - ./ProductRecommender/data:/data
         environment:
-            SPRING_APPLICATION_NAME: recom-api
-
-            SPRING_PROFILES_ACTIVE: docker
-
-            SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/recommendation_db
-            SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
-            SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
-
-            H2_URL: jdbc:h2:file:/usr_data/transaction
+            SPRING_PROFILES_ACTIVE: dev
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+           # H2_URL: jdbc:h2:file:/usr_data/transaction
         depends_on:
-            - consul
-            - postgres
+            consul:
+                condition: service_healthy
+            postgres:
+                condition: service_healthy
+        restart: on-failure
         ports:
             - "8080:8080"
         networks:
