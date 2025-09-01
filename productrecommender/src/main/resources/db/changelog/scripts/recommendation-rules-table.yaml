@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Aydar
+      changes:
+        - createTable:
+            tableName: recommendation_rules
+            schemaName: public
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: product_name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                 name: product_id
+                 type: UUID
+                 constraints:
+                   nullable: false
+              - column:
+                  name: product_text
+                  type: TEXT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: rule_conditions
+                  type: jsonb
+                  constraints:
+                    nullable: false
