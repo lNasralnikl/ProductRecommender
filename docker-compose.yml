@@ -59,12 +59,12 @@ services:
         container_name: recom-api
         volumes:
             - recom_data:/var/lib/postgresql/data
-            - ./data:/data
+            - ./ProductRecommender/data:/data
         environment:
             SPRING_PROFILES_ACTIVE: dev
             POSTGRES_USER: ${POSTGRES_USER}
             POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-            H2_URL: jdbc:h2:file:/usr_data/transaction
+           # H2_URL: jdbc:h2:file:/usr_data/transaction
         depends_on:
             consul:
                 condition: service_healthy

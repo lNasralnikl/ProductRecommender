@@ -9,10 +9,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.sql.DataSource;
 
 @Configuration
+@Slf4j
 public class H2Config {
 
     // === Primary: Postgres ===
@@ -47,8 +49,12 @@ public class H2Config {
     public DataSource h2DataSource(@Qualifier("h2DataSourceProperties") DataSourceProperties props) {
         HikariConfig hc = new HikariConfig();
         hc.setJdbcUrl(props.getUrl());
+        hc.setReadOnly(true);
+        hc.setMaximumPoolSize(10);
         hc.setUsername(props.getUsername());
         hc.setPassword(props.getPassword());
+        log.info(props.getUsername());
+        log.info(props.getPassword());
         if (props.getDriverClassName() != null) {
             hc.setDriverClassName(props.getDriverClassName());
         }

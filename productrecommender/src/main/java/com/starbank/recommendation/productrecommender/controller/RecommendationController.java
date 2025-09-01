@@ -1,5 +1,6 @@
 package com.starbank.recommendation.productrecommender.controller;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.starbank.recommendation.productrecommender.dto.RecommendationDto;
 import com.starbank.recommendation.productrecommender.dto.RuleDto;
 import com.starbank.recommendation.productrecommender.dto.RuleStatisticDto;
@@ -23,9 +24,9 @@ public class RecommendationController {
     }
 
     @GetMapping("/recommendation/{userId}")
-    public ResponseEntity<List<RecommendationDto>> getRecommendations(@PathVariable UUID userId) {
+    public ResponseEntity<RecommendationResponse> getRecommendations(@PathVariable UUID userId) {
         List<RecommendationDto> recommendations = recommendationService.getRecommendations(userId);
-        return ResponseEntity.ok(recommendations);
+        return ResponseEntity.ok(new RecommendationResponse(userId, recommendations));
     }
 
     @PostMapping("/rule")
@@ -59,6 +60,10 @@ public class RecommendationController {
                 .collect(Collectors.toList());
         return new RuleStatisticDto(response);
     }
+
+    public static record RecommendationResponse(@JsonProperty("user_id") UUID id, List<RecommendationDto> recommendations) {
+    }
+
 
 
 }
